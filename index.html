@@ -70,8 +70,6 @@
         let list = document.querySelector(".list-group");
 
         listOfProducts.forEach((product, index) => {
-          // We could aslo have desctructured the information as follows
-          // listOfProducts.forEach(({ name, price, _id }, index) => {
           const productLi = document.createElement("li");
           productLi.classList.add("list-group-item");
           productLi.innerHTML = `<div class="row px-3 align-items-center">
