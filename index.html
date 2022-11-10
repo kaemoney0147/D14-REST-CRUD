@@ -1,0 +1,110 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Product</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">KAES PHONE STORE</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">AVALIABLE PRODUCT</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-6 mt-5">
+          <h2>Available Products</h2>
+          <ul class="list-group mt-3"></ul>
+        </div>
+      </div>
+    </div>
+    <script>
+        console.log('loading product')
+      async function getProducts() {
+        const response = await fetch(
+          "https://striveschool-api.herokuapp.com/api/product/",
+          {
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzZjZWVhOWQ0YmUzZDAwMTU4NDVmZDQiLCJpYXQiOjE2NjgwODM0MjMsImV4cCI6MTY2OTI5MzAyM30.Q91c_7Uzf8wt0zNONFw6-2P0p3bt6jmWXenodNwkVLQ",
+            },
+          }
+        );
+        const products = await response.json();
+        console.log(products);
+        return products;
+      }
+
+      function renderProducts(listOfProducts) {
+        let list = document.querySelector(".list-group");
+
+        listOfProducts.forEach((product, index) => {
+          // We could aslo have desctructured the information as follows
+          // listOfProducts.forEach(({ name, price, _id }, index) => {
+          const productLi = document.createElement("li");
+          productLi.classList.add("list-group-item");
+          productLi.innerHTML = `<div class="row px-3 align-items-center">
+                                     <div class="mr-1 col row justify-content-between align-items-center">
+                                       <div>${index + 1} - ${product.name}</div>
+                                       <div class="badge badge-dark">${
+                                         product.price
+                                       }$</div>
+                                     </div>
+                                     <a class"col" href="details.html?productId=${
+                                       product._id
+                                     }">VIEW DETAILS</a>
+                                   </div>`;
+
+          list.appendChild(productLi);
+        });
+      }
+
+      window.onload = async () => {
+        const products = await getProducts();
+        renderProducts(products);
+      };
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
